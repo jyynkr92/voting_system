@@ -1,5 +1,7 @@
+import VoteItem from 'components/vote/VoteItem';
+import VotePeriod from 'components/vote/VotePeriod';
 import { push } from 'lib/browserHistory';
-import moment from 'moment';
+import getVoteStatus from 'lib/getVotestatus';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
@@ -33,7 +35,8 @@ function Vote({ match }: VoteProps) {
 
   useEffect(() => {
     if (vote.id && vote.startDate && vote.endDate) {
-      getVoteStatus(vote.startDate, vote.endDate);
+      const status = getVoteStatus(vote.startDate, vote.endDate);
+      setVoteStatus(status);
     }
   }, [vote]);
 
@@ -62,20 +65,6 @@ function Vote({ match }: VoteProps) {
     dispatch(setVote({ id: voteId, listId: selItem }));
   };
 
-  const getVoteStatus = (startDate: Date, endDate: Date) => {
-    const date = moment().toDate();
-    const startDateWithUTC = moment(startDate).toDate();
-    const endDateWithUTC = moment(endDate).toDate();
-
-    if (date < startDateWithUTC) {
-      setVoteStatus('예정');
-    } else if (startDateWithUTC <= date && date <= endDateWithUTC) {
-      setVoteStatus('진행중');
-    } else {
-      setVoteStatus('종료');
-    }
-  };
-
   const onUpdateClick = () => {
     push(`/vote/update/${voteId}`);
   };
@@ -85,29 +74,17 @@ function Vote({ match }: VoteProps) {
   };
 
   return (
-    <div className="vote-wrapper">
-      <div className="title">{vote.title}</div>
-      <div className="period">
-        {vote.startDate && moment(vote.startDate).format('YYYY-MM-DD HH:mm')}
-        {vote.endDate && ` ~ ${moment(vote.endDate).format('YYYY-MM-DD HH:mm')}`}
-        <span className="status">/ {voteStatus}</span>
-      </div>
-      <div className="list">
+    <div className='vote-wrapper'>
+      <div className='title'>{vote.title}</div>
+      {vote.startDate && vote.endDate && (
+        <VotePeriod startDate={vote.startDate} endDate={vote.endDate} status={voteStatus} />
+      )}
+      <div className='list'>
         {vote.list.map((data) => (
-          <div key={data.id} className="item">
-            <input
-              type="radio"
-              value={data.id}
-              checked={hasVote.length > 0 ? hasVote[0].id === data.id : data.id === selItem}
-              id={data.id}
-              disabled={hasVote.length > 0}
-              onChange={onItemVoteChange}
-            />
-            <label htmlFor={data.id}>{data.name}</label>
-          </div>
+          <VoteItem item={data} onItemVoteChange={onItemVoteChange} selItem={selItem} hasVote={hasVote} key={data.id} />
         ))}
       </div>
-      <div className="button-wrapper">
+      <div className='button-wrapper'>
         {voteStatus === '진행중' && <button onClick={onVoteClick}>투표하기</button>}
         {voteStatus !== '진행중' && <button onClick={onUpdateClick}>수정하기</button>}
         {(voteStatus === '진행중' || voteStatus === '완료') && <button onClick={onResultClick}>결과보기</button>}

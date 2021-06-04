@@ -52,15 +52,7 @@ function* insert({ title, startDate, endDate, list }: InsertVoteRequestAction) {
       throw Error(message);
     }
   } catch (e) {
-    const { message } = e;
-
-    if (message && message === 'invalidate form') {
-      alert('올바르지 않은 형태의 입력입니다.');
-    } else {
-      alert('문제가 발생하였습니다.');
-    }
-
-    yield call(voteFailure);
+    yield call(voteFailure, e);
   }
 }
 
@@ -80,17 +72,7 @@ function* update({ id, title, startDate, endDate, list }: UpdateVoteRequestActio
       throw Error(message);
     }
   } catch (e) {
-    const { message } = e;
-
-    if (message && message === 'invalidate form') {
-      alert('올바르지 않은 형태의 입력입니다.');
-    } else if (message && message === 'no data') {
-      alert('수정할 데이터가 없습니다.');
-    } else {
-      alert('문제가 발생하였습니다.');
-    }
-
-    yield call(voteFailure);
+    yield call(voteFailure, e);
   }
 }
 
@@ -106,17 +88,7 @@ function* deleteItem({ id }: DeleteVoteRequestAction) {
       throw Error(message);
     }
   } catch (e) {
-    const { message } = e;
-
-    if (message && message === 'invalidate form') {
-      alert('올바르지 않은 형태의 입력입니다.');
-    } else if (message && message === 'no data') {
-      alert('수정할 데이터가 없습니다.');
-    } else {
-      alert('문제가 발생하였습니다.');
-    }
-
-    yield call(voteFailure);
+    yield call(voteFailure, e);
   }
 }
 
@@ -135,16 +107,7 @@ function* listItem() {
       throw Error(message);
     }
   } catch (e) {
-    const { message } = e;
-    if (message && message === 'invalidate form') {
-      alert('올바르지 않은 형태의 입력입니다.');
-    } else if (message && message === 'no data') {
-      alert('수정할 데이터가 없습니다.');
-    } else {
-      alert('문제가 발생하였습니다.');
-    }
-
-    yield call(voteFailure);
+    yield call(voteFailure, e);
   }
 }
 
@@ -163,16 +126,7 @@ function* detailItem({ id }: DetailVoteRequestAction) {
       throw Error(message);
     }
   } catch (e) {
-    const { message } = e;
-    if (message && message === 'invalidate form') {
-      alert('올바르지 않은 형태의 입력입니다.');
-    } else if (message && message === 'no data') {
-      alert('수정할 데이터가 없습니다.');
-    } else {
-      alert('문제가 발생하였습니다.');
-    }
-
-    yield call(voteFailure);
+    yield call(voteFailure, e);
   }
 }
 
@@ -199,20 +153,20 @@ function* vote({ id, listId }: SetVoteRequestAction) {
       throw Error(message);
     }
   } catch (e) {
-    const { message } = e;
-    if (message && message === 'invalidate form') {
-      alert('올바르지 않은 형태의 입력입니다.');
-    } else if (message && message === 'no data') {
-      alert('수정할 데이터가 없습니다.');
-    } else {
-      alert('문제가 발생하였습니다.');
-    }
-
-    yield call(voteFailure);
+    yield call(voteFailure, e);
   }
 }
 
-function* voteFailure() {
+function* voteFailure(e: any) {
+  const { message } = e;
+  if (message && message === 'invalidate form') {
+    alert('올바르지 않은 형태의 입력입니다.');
+  } else if (message && message === 'no data') {
+    alert('데이터가 없습니다.');
+  } else {
+    alert('문제가 발생하였습니다.');
+  }
+
   yield put({
     type: VOTE_FAILURE,
   });

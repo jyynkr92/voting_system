@@ -1,5 +1,6 @@
+import VotePeriod from 'components/vote/VotePeriod';
+import VoteResultItem from 'components/vote/VoteResultItem';
 import { goBack } from 'lib/browserHistory';
-import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
@@ -43,26 +44,18 @@ function VoteResult({ match }: VoteProps) {
   };
 
   return (
-    <div className="vote-wrapper">
-      <div className="title">[{vote.title}] 결과</div>
-      <div className="period">
-        {vote.startDate && moment(vote.startDate).format('YYYY-MM-DD HH:mm')}
-        {vote.endDate && ` ~ ${moment(vote.endDate).format('YYYY-MM-DD HH:mm')}`}
-      </div>
-      <div className="total">
+    <div className='vote-wrapper'>
+      <div className='title'>[{vote.title}] 결과</div>
+      {vote.startDate && vote.endDate && <VotePeriod startDate={vote.startDate} endDate={vote.endDate} />}
+      <div className='total'>
         참여 인원 : <span>{totalVotes}명</span>
       </div>
-      <div className="result-list">
+      <div className='result-list'>
         {vote.list.map((data) => (
-          <div key={data.id} className="item">
-            <span className="name">{data.name}</span> <span>{data.vote.length}명</span>
-            <span>
-              <progress value={data.vote.length} max={totalVotes} />
-            </span>
-          </div>
+          <VoteResultItem key={data.id} item={data} totalVotes={totalVotes} />
         ))}
       </div>
-      <div className="button-wrapper">
+      <div className='button-wrapper'>
         <button onClick={onBackClick}>되돌아가기</button>
       </div>
     </div>

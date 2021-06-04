@@ -33,15 +33,7 @@ function* signin({ id, password }: GetUserSignInRequestAction) {
       throw Error(message);
     }
   } catch (e) {
-    const { message } = e;
-
-    if (message && message === 'no data') {
-      alert('아이디와 비밀번호를 다시 확인해주세요.');
-    } else {
-      alert('문제가 발생하였습니다.');
-    }
-
-    yield call(userFailure);
+    yield call(userFailure, e);
   }
 }
 
@@ -58,15 +50,7 @@ function* signup({ id, password, name }: GetUserSignUpRequestAction) {
       throw Error(message);
     }
   } catch (e) {
-    const { message } = e;
-
-    if (message && message === 'existed data') {
-      alert('이미 존재하는 아이디 입니다.');
-    } else {
-      alert('문제가 발생하였습니다.');
-    }
-
-    yield call(userFailure);
+    yield call(userFailure, e);
   }
 }
 
@@ -74,7 +58,17 @@ function* logout() {
   localStorage.removeItem('login');
 }
 
-function* userFailure() {
+function* userFailure(e: any) {
+  const { message } = e;
+
+  if (message && message === 'existed data') {
+    alert('이미 존재하는 아이디 입니다.');
+  } else if (message && message === 'no data') {
+    alert('아이디와 비밀번호를 다시 확인해주세요.');
+  } else {
+    alert('문제가 발생하였습니다.');
+  }
+
   yield put({
     type: USER_FAILURE,
   });

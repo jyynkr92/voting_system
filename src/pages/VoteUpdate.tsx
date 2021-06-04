@@ -1,5 +1,6 @@
 import { DateTimePicker } from '@material-ui/pickers';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
+import VoteUpdateItem from 'components/vote/VoteUpdateItem';
 import { push } from 'lib/browserHistory';
 import randomStr from 'lib/randomStr';
 import React, { useEffect, useState } from 'react';
@@ -120,34 +121,28 @@ function VoteUpdate({ match }: VoteUpdateProps) {
   };
 
   return (
-    <div className="vote-wrapper">
-      <div className="title">{voteId === 'new' ? '투표 추가하기' : '투표 수정하기'}</div>
-      <div className="update-item">
-        <span className="item-title">투표 제목</span>
-        <input type="text" value={title} onChange={onTitleChange} />
+    <div className='vote-wrapper'>
+      <div className='title'>{voteId === 'new' ? '투표 추가하기' : '투표 수정하기'}</div>
+      <div className='update-item'>
+        <span className='item-title'>투표 제목</span>
+        <input type='text' value={title} onChange={onTitleChange} />
       </div>
-      <div className="update-item">
-        <span className="item-title">시작 날짜</span>
+      <div className='update-item'>
+        <span className='item-title'>시작 날짜</span>
         <DateTimePicker value={startDate} onChange={onStartDateChange} />
       </div>
-      <div className="update-item">
-        <span className="item-title">종료 날짜</span>
+      <div className='update-item'>
+        <span className='item-title'>종료 날짜</span>
         <DateTimePicker value={endDate} onChange={onEndDateChange} />
       </div>
-      <div className="update-item fullsize">
-        <span className="item-title">항목</span>
+      <div className='update-item fullsize'>
+        <span className='item-title'>항목</span>
         <button onClick={onAddItem}>추가</button>
         {list.map((data, idx) => (
-          <div key={data.id} className="item-list">
-            <span>{idx + 1}.</span>
-            <input type="text" value={data.name} onChange={onItemChange} data-itemid={data.id} />
-            <button onClick={onDeleteItem} id={data.id}>
-              삭제
-            </button>
-          </div>
+          <VoteUpdateItem key={data.id} item={data} idx={idx} onItemChange={onItemChange} onDeleteItem={onDeleteItem} />
         ))}
       </div>
-      <div className="button-wrapper">
+      <div className='button-wrapper'>
         {voteId === 'new' && <button onClick={onSubmitClick}>생성</button>}
         {voteId !== 'new' && <button onClick={onSubmitClick}>수정</button>}
         <button onClick={onCancelClick}>취소</button>

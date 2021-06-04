@@ -1,3 +1,4 @@
+import UserInput from 'components/user/UserInput';
 import { push } from 'lib/browserHistory';
 import useInput from 'lib/useInput';
 import React from 'react';
@@ -19,24 +20,15 @@ function Signup() {
   };
 
   return (
-    <div className="signup-wrapper">
-      <div className="signup-box">
-        <div className="title">Sign up</div>
-        <div className="form">
-          <div className="field">
-            <div className="field-title">아이디</div>
-            <input type="text" value={id} onChange={setId} />
-          </div>
-          <div className="field">
-            <div className="field-title">비밀번호</div>
-            <input type="password" value={password} onChange={setPassword} />
-          </div>
-          <div className="field">
-            <div className="field-title">이름</div>
-            <input type="text" value={name} onChange={setName} />
-          </div>
+    <div className='signup-wrapper'>
+      <div className='signup-box'>
+        <div className='title'>Sign up</div>
+        <div className='form'>
+          <UserInput title='아이디' type='text' value={id} setValue={setId} />
+          <UserInput title='비밀번호' type='password' value={password} setValue={setPassword} />
+          <UserInput title='이름' type='text' value={name} setValue={setName} />
         </div>
-        <div className="button-wrapper">
+        <div className='button-wrapper'>
           <button onClick={onSubmitClick}>회원가입</button>
           <button onClick={onCancelClick}>취소</button>
         </div>
