@@ -49,6 +49,11 @@ function Vote({ match }: VoteProps) {
   };
 
   const onVoteClick = () => {
+    if (!user.id) {
+      push('/signin');
+      return;
+    }
+
     if (hasVote.length > 0) {
       alert('이미 참여하였습니다.');
       return;
