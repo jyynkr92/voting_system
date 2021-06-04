@@ -17,7 +17,6 @@ export function insertVote({
   user: UserInfo;
 }) {
   const voteList = localStorage.getItem('votes');
-  const votes = { vote: [] as Array<VoteInfo> };
 
   if (!title.trim() || !startDate || !endDate || list.length < 1) {
     return { data: { stauts: 400, message: 'invalidate form' } };
@@ -25,13 +24,12 @@ export function insertVote({
 
   if (voteList) {
     const { vote } = JSON.parse(voteList);
-    votes.vote.concat(vote);
-    votes.vote.concat({ id: randomStr(), title, startDate, endDate, list, creator: user });
+    const votes = vote.concat({ id: randomStr(), title, startDate, endDate, list, creator: user });
+    localStorage.setItem('votes', JSON.stringify({ vote: votes }));
   } else {
-    votes.vote.concat({ id: randomStr(), title, startDate, endDate, list, creator: user });
+    const votes = { id: randomStr(), title, startDate, endDate, list, creator: user };
+    localStorage.setItem('votes', JSON.stringify({ vote: votes }));
   }
-
-  localStorage.setItem('votes', JSON.stringify(votes));
 
   return { data: { status: 200 } };
 }

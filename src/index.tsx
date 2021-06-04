@@ -10,6 +10,8 @@ import createSagaMiddleware from 'redux-saga';
 import { createLogger } from 'redux-logger';
 import { Router } from 'react-router';
 import { browserHistory } from 'lib/browserHistory';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
 
 const sagaMiddleware = createSagaMiddleware();
 const logger = process.env.NODE_ENV === 'development' ? createLogger() : null;
@@ -27,7 +29,9 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <Router history={browserHistory}>
-        <App />
+        <MuiPickersUtilsProvider utils={MomentUtils}>
+          <App />
+        </MuiPickersUtilsProvider>
       </Router>
     </Provider>
   </React.StrictMode>,

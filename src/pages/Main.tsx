@@ -1,8 +1,9 @@
 import { push } from 'lib/browserHistory';
+import moment from 'moment';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Rootstate } from 'store';
-import { getVoteList } from 'store/vote/actions';
+import { deleteVote, getVoteList } from 'store/vote/actions';
 
 function Main() {
   const dispatch = useDispatch();
@@ -22,13 +23,54 @@ function Main() {
     id && push(`/vote/info/${id}`);
   };
 
+  const setVoteStatus = (startDate: Date, endDate: Date) => {
+    const date = moment().toDate();
+    const startDateWithUTC = moment(startDate).toDate();
+    const endDateWithUTC = moment(endDate).toDate();
+
+    if (date < startDateWithUTC) {
+      return '예정';
+    } else if (startDateWithUTC <= date && date <= endDateWithUTC) {
+      return '진행중';
+    } else {
+      return '종료';
+    }
+  };
+
+  const onDeleteClick = (e: React.MouseEvent<HTMLElement>) => {
+    const itemId = e.currentTarget.getAttribute('data-itemid');
+    itemId && dispatch(deleteVote({ id: itemId }));
+  };
+
+  const onResultClick = (e: React.MouseEvent<HTMLElement>) => {
+    const { id } = e.currentTarget;
+    id && push(`/vote/result/${id}`);
+  };
+
   return (
     <div className="main-wrapper">
       <div>{user.id && <button onClick={onCreateClick}>Create</button>}</div>
       <div>리스트</div>
       <div>
-        {list.map((data) => (
-          <div onClick={onVoteClick}>{data.title}</div>
+        {list.map((data, idx) => (
+          <div
+            onClick={
+              data.startDate && data.endDate && setVoteStatus(data.startDate, data.endDate) === '종료'
+                ? onResultClick
+                : onVoteClick
+            }
+            key={data.id}
+            id={data.id}
+          >
+            {idx + 1} / {data.title} / {data.startDate && moment(data.startDate).format('YYYY-MM-DD HH:mm')} /{' '}
+            {data.endDate && moment(data.endDate).format('YYYY-MM-DD HH:mm')} / {data.creator.name} /{' '}
+            {data.startDate && data.endDate && setVoteStatus(data.startDate, data.endDate)}
+            {data.creator.id === user.id && (
+              <button onClick={onDeleteClick} data-itemid={data.id}>
+                삭제
+              </button>
+            )}
+          </div>
         ))}
       </div>
     </div>

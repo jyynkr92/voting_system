@@ -100,11 +100,7 @@ function* deleteItem({ id }: DeleteVoteRequestAction) {
     const { status } = response.data;
 
     if (status === 200) {
-      yield put({
-        type: INSERT_VOTE_SUCCESS,
-      });
-
-      push('/');
+      yield call(listItem);
     } else {
       const { message } = response.data;
       throw Error(message);
