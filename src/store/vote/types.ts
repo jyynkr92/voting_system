@@ -1,3 +1,5 @@
+import { UserInfo } from 'store/user/types';
+
 export interface Vote {
   list: Array<VoteInfo>;
   vote: VoteInfo;
@@ -5,6 +7,7 @@ export interface Vote {
 
 export interface VoteInfo {
   id: string;
+  creator: UserInfo;
   title: string;
   startDate: Date | null;
   endDate: Date | null;

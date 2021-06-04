@@ -6,6 +6,7 @@ export function userSignIn({ id, password }: { id: string; password: string }) {
 
   if (users) {
     const decryptedData = decrypt({ data: users });
+    console.log(decryptedData);
     const userFind =
       decryptedData &&
       decryptedData.user.filter(
@@ -26,7 +27,7 @@ export function userSignIn({ id, password }: { id: string; password: string }) {
 //signup
 export function userSignUp({ id, password, name }: { id: string; password: string; name: string }) {
   const users = localStorage.getItem('users');
-
+  const encryptedPW = encrypt({ data: password });
   if (users) {
     const decryptedData = decrypt({ data: users });
     const userFind =
@@ -36,16 +37,16 @@ export function userSignUp({ id, password, name }: { id: string; password: strin
     if (userFind) {
       return { data: { result: 400, message: 'existed data' } };
     } else {
-      const decryptedData = decrypt({ data: users });
-      const usersArr = decryptedData.user.push({ id, password: encrypt({ data: password }), name });
-      const encrypted = encrypt({ data: JSON.stringify({ user: usersArr }) });
+      console.log(decryptedData);
+      decryptedData.user.push({ id, password: encryptedPW, name });
+      const encrypted = encrypt({ data: JSON.stringify(decryptedData) });
       encrypted && localStorage.setItem('users', encrypted);
 
       return { data: { result: 200 } };
     }
   } else {
     const encrypted = encrypt({
-      data: JSON.stringify({ user: [{ id, password: encrypt({ data: password }), name }] }),
+      data: JSON.stringify({ user: [{ id, password: encryptedPW, name }] }),
     });
     encrypted && localStorage.setItem('users', encrypted);
     return { data: { result: 200 } };

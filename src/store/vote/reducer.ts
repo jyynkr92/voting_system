@@ -1,3 +1,4 @@
+import { UserInfo } from 'store/user/types';
 import { VoteActionTypes } from './actionTypes';
 import { DETAIL_VOTE_SUCCESS, LIST_VOTE_SUCCESS, SET_DETAIL_VOTE_RESET, Vote } from './types';
 
@@ -9,6 +10,7 @@ const initialState: Vote = {
     startDate: null,
     endDate: null,
     list: [],
+    creator: {} as UserInfo,
   },
 };
 

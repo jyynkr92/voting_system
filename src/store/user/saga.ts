@@ -27,6 +27,7 @@ function* signin({ id, password }: GetUserSignInRequestAction) {
         name: data.name,
         id: data.id,
       });
+      push('/');
     } else {
       const { message } = response.data;
       throw Error(message);
@@ -71,9 +72,6 @@ function* signup({ id, password, name }: GetUserSignUpRequestAction) {
 
 function* logout() {
   localStorage.removeItem('login');
-  yield put({
-    type: GET_USER_LOGOUT,
-  });
 }
 
 function* userFailure() {
@@ -83,8 +81,8 @@ function* userFailure() {
 }
 
 function* userRequest() {
-  yield takeLatest(GET_USER_SIGNUP_REQUEST, signin);
-  yield takeLatest(GET_USER_SIGNIN_REQUEST, signup);
+  yield takeLatest(GET_USER_SIGNUP_REQUEST, signup);
+  yield takeLatest(GET_USER_SIGNIN_REQUEST, signin);
   yield takeLatest(GET_USER_LOGOUT, logout);
 }
 
