@@ -129,6 +129,7 @@ header span.user-name {
   padding: 5px 25px;
   font-weight: 500;
   border-radius: 8px;
+  cursor: pointer;
 }
 
 .vote-wrapper .title {
