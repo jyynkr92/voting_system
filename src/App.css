@@ -17,7 +17,7 @@ header span {
 
 header span.user-name {
   margin-right: 50px;
-  cursor: none;
+  cursor: default;
 }
 
 .signup-wrapper {

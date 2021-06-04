@@ -19,6 +19,8 @@ function Main() {
   };
 
   const onVoteClick = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
     const { id } = e.currentTarget;
     id && push(`/vote/info/${id}`);
   };
@@ -38,11 +40,19 @@ function Main() {
   };
 
   const onDeleteClick = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const response = window.confirm('정말로 삭제하시겠습니까?');
+
+    if (!response) return;
+
     const itemId = e.currentTarget.getAttribute('data-itemid');
     itemId && dispatch(deleteVote({ id: itemId }));
   };
 
   const onResultClick = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
     const { id } = e.currentTarget;
     id && push(`/vote/result/${id}`);
   };

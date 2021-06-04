@@ -6,8 +6,11 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Rootstate } from 'store';
-import { getVoteDetail, insertVote, setVoteDetailReset } from 'store/vote/actions';
+import { getVoteDetail, insertVote, setVoteDetailReset, updateVote } from 'store/vote/actions';
 import { VoteItem } from 'store/vote/types';
+import moment from 'moment';
+import 'moment/locale/ko';
+moment.locale('ko');
 
 type Params = {
   voteId: string;
@@ -108,7 +111,11 @@ function VoteUpdate({ match }: VoteUpdateProps) {
       return;
     }
 
-    dispatch(insertVote({ title, startDate, endDate, list }));
+    if (voteId === 'new') {
+      dispatch(insertVote({ title, startDate, endDate, list }));
+    } else {
+      dispatch(updateVote({ id: voteId, title, startDate, endDate, list }));
+    }
   };
 
   const onCancelClick = () => {
@@ -141,7 +148,8 @@ function VoteUpdate({ match }: VoteUpdateProps) {
         ))}
       </div>
       <div>
-        <button onClick={onSubmitClick}>생성</button>
+        {voteId === 'new' && <button onClick={onSubmitClick}>생성</button>}
+        {voteId !== 'new' && <button onClick={onSubmitClick}>수정</button>}
         <button onClick={onCancelClick}>취소</button>
       </div>
     </div>
