@@ -44,21 +44,26 @@ function VoteResult({ match }: VoteProps) {
 
   return (
     <div className="vote-wrapper">
-      <div>{vote.title}</div>
-      <div>
+      <div className="title">[{vote.title}] 결과</div>
+      <div className="period">
         {vote.startDate && moment(vote.startDate).format('YYYY-MM-DD HH:mm')}
         {vote.endDate && ` ~ ${moment(vote.endDate).format('YYYY-MM-DD HH:mm')}`}
       </div>
-      <div>전체 참여 인원 수 : {totalVotes}</div>
-      <div>
+      <div className="total">
+        참여 인원 : <span>{totalVotes}명</span>
+      </div>
+      <div className="result-list">
         {vote.list.map((data) => (
-          <div key={data.id}>
-            {data.name} / {data.vote.length} / <progress value={data.vote.length} max={totalVotes} />
+          <div key={data.id} className="item">
+            <span className="name">{data.name}</span> <span>{data.vote.length}명</span>
+            <span>
+              <progress value={data.vote.length} max={totalVotes} />
+            </span>
           </div>
         ))}
-        <div>
-          <button onClick={onBackClick}>되돌아가기</button>
-        </div>
+      </div>
+      <div className="button-wrapper">
+        <button onClick={onBackClick}>되돌아가기</button>
       </div>
     </div>
   );

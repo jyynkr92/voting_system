@@ -59,9 +59,9 @@ function Main() {
 
   return (
     <div className="main-wrapper">
-      <div>{user.id && <button onClick={onCreateClick}>Create</button>}</div>
-      <div>리스트</div>
-      <div>
+      <div className="create">{user.id && <button onClick={onCreateClick}>Create</button>}</div>
+      <div className="list-title">투표 리스트</div>
+      <div className="list-wrapper">
         {list.map((data, idx) => (
           <div
             onClick={
@@ -71,15 +71,23 @@ function Main() {
             }
             key={data.id}
             id={data.id}
+            className="item"
           >
-            {idx + 1} / {data.title} / {data.startDate && moment(data.startDate).format('YYYY-MM-DD HH:mm')} /{' '}
-            {data.endDate && moment(data.endDate).format('YYYY-MM-DD HH:mm')} / {data.creator.name} /{' '}
-            {data.startDate && data.endDate && setVoteStatus(data.startDate, data.endDate)}
-            {data.creator.id === user.id && (
-              <button onClick={onDeleteClick} data-itemid={data.id}>
-                삭제
-              </button>
-            )}
+            <span>{idx + 1}</span>
+            <span className="item-title">{data.title}</span>
+            <span>{data.startDate && moment(data.startDate).format('YYYY-MM-DD HH:mm')}</span>
+            <span>{data.endDate && moment(data.endDate).format('YYYY-MM-DD HH:mm')}</span>
+            <span className="item-status">{data.creator.name}</span>
+            <span className="item-status">
+              {data.startDate && data.endDate && setVoteStatus(data.startDate, data.endDate)}
+            </span>
+            <span>
+              {data.creator.id === user.id && (
+                <button onClick={onDeleteClick} data-itemid={data.id} className="delete-button">
+                  삭제
+                </button>
+              )}
+            </span>
           </div>
         ))}
       </div>

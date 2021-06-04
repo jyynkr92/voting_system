@@ -86,14 +86,15 @@ function Vote({ match }: VoteProps) {
 
   return (
     <div className="vote-wrapper">
-      <div>{vote.title}</div>
-      <div>
+      <div className="title">{vote.title}</div>
+      <div className="period">
         {vote.startDate && moment(vote.startDate).format('YYYY-MM-DD HH:mm')}
         {vote.endDate && ` ~ ${moment(vote.endDate).format('YYYY-MM-DD HH:mm')}`}
+        <span className="status">/ {voteStatus}</span>
       </div>
-      <div>
+      <div className="list">
         {vote.list.map((data) => (
-          <div key={data.id}>
+          <div key={data.id} className="item">
             <input
               type="radio"
               value={data.id}
@@ -105,11 +106,11 @@ function Vote({ match }: VoteProps) {
             <label htmlFor={data.id}>{data.name}</label>
           </div>
         ))}
-        <div>
-          {voteStatus === '진행중' && <button onClick={onVoteClick}>투표하기</button>}
-          {voteStatus !== '진행중' && <button onClick={onUpdateClick}>수정하기</button>}
-          {(voteStatus === '진행중' || voteStatus === '완료') && <button onClick={onResultClick}>결과보기</button>}
-        </div>
+      </div>
+      <div className="button-wrapper">
+        {voteStatus === '진행중' && <button onClick={onVoteClick}>투표하기</button>}
+        {voteStatus !== '진행중' && <button onClick={onUpdateClick}>수정하기</button>}
+        {(voteStatus === '진행중' || voteStatus === '완료') && <button onClick={onResultClick}>결과보기</button>}
       </div>
     </div>
   );
