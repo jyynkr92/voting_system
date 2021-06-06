@@ -28,7 +28,7 @@ export function insertVote({
     localStorage.setItem('votes', JSON.stringify({ vote: votes }));
   } else {
     const votes = { id: randomStr(), title, startDate, endDate, list, creator: user };
-    localStorage.setItem('votes', JSON.stringify({ vote: votes }));
+    localStorage.setItem('votes', JSON.stringify({ vote: [votes] }));
   }
 
   return { data: { status: 200 } };
