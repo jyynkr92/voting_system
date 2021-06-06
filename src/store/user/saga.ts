@@ -54,7 +54,7 @@ function* signup({ id, password, name }: GetUserSignUpRequestAction) {
   }
 }
 
-function* logout() {
+function logout() {
   localStorage.removeItem('login');
 }
 
