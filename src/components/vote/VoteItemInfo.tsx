@@ -1,14 +1,14 @@
 import React from 'react';
 import { VoteItem } from 'store/vote/types';
 
-interface VoteItemProps {
+interface VoteItemInfoProps {
   item: VoteItem;
   onItemVoteChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   selItem: string;
   hasVote: Array<VoteItem>;
 }
 
-function VoteItem({ item, onItemVoteChange, selItem, hasVote }: VoteItemProps) {
+function VoteItemInfo({ item, onItemVoteChange, selItem, hasVote }: VoteItemInfoProps) {
   return (
     <div key={item.id} className='item'>
       <input
@@ -24,4 +24,4 @@ function VoteItem({ item, onItemVoteChange, selItem, hasVote }: VoteItemProps) {
   );
 }
 
-export default VoteItem;
+export default VoteItemInfo;

@@ -28,10 +28,22 @@ function Header() {
         <span onClick={onHomeClick}>HOME</span>
       </div>
       <div>
-        {user.id && user.name && <span className="user-name">{user.name}</span>}
-        {user.id && <span onClick={onLogoutClick}>LOGOUT</span>}
-        {!user.id && <span onClick={onSigninClick}>SIGNIN</span>}
-        {!user.id && <span onClick={onSignupClick}>SIGNUP</span>}
+        {user.id && user.name && <span className='user-name'>{user.name}</span>}
+        {user.id && (
+          <span onClick={onLogoutClick} className='logout'>
+            LOGOUT
+          </span>
+        )}
+        {!user.id && (
+          <span onClick={onSigninClick} className='signin'>
+            SIGNIN
+          </span>
+        )}
+        {!user.id && (
+          <span onClick={onSignupClick} className='signup'>
+            SIGNUP
+          </span>
+        )}
       </div>
     </header>
   );

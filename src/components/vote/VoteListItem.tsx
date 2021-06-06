@@ -19,7 +19,7 @@ function VoteListItem({ item, voteStatus, idx, userId, onResultClick, onVoteClic
       <span className='item-title'>{item.title}</span>
       <span>{item.startDate && moment(item.startDate).format('YYYY-MM-DD HH:mm')}</span>
       <span>{item.endDate && moment(item.endDate).format('YYYY-MM-DD HH:mm')}</span>
-      <span className='item-status'>{item.creator.name}</span>
+      <span className='item-status creator'>{item.creator.name}</span>
       <span className='item-status'>{voteStatus}</span>
       <span>
         {item.creator.id === userId && (

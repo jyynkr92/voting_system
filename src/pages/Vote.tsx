@@ -1,4 +1,4 @@
-import VoteItem from 'components/vote/VoteItem';
+import VoteItemInfo from 'components/vote/VoteItemInfo';
 import VotePeriod from 'components/vote/VotePeriod';
 import { push } from 'lib/browserHistory';
 import getVoteStatus from 'lib/getVotestatus';
@@ -81,7 +81,13 @@ function Vote({ match }: VoteProps) {
       )}
       <div className='list'>
         {vote.list.map((data) => (
-          <VoteItem item={data} onItemVoteChange={onItemVoteChange} selItem={selItem} hasVote={hasVote} key={data.id} />
+          <VoteItemInfo
+            item={data}
+            onItemVoteChange={onItemVoteChange}
+            selItem={selItem}
+            hasVote={hasVote}
+            key={data.id}
+          />
         ))}
       </div>
       <div className='button-wrapper'>
